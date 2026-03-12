@@ -7,11 +7,16 @@
   justify-content: center; /* Centraliza horizontalmente */
   /* align-items: center; Centraliza verticalmente */
   height: 100vh;
-  background-color: silver;
+  /* background-color: rgb(247, 238, 238);*/
+}
+.todo {
+  background-color: pink;
+  min-height: 100vh; /* Garante que a altura mínima seja 100% da tela */
+  width: 100%; /* Garante que ocupe toda a largura disponível */
 }
 
 .logo {
-  height: 6em;
+  height: 4em;
   padding: 1.5em;
 }
 .logo:hover {
@@ -36,4 +41,11 @@ footer {
   text-align: center;
   justify-content: center; /* Centraliza horizontalmente */
   align-items: center; /*Centraliza verticalmente */
+}
+.habit-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 12px 16px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.1);
+  margin-bottom: 12px;
 }
