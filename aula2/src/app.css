@@ -29,8 +29,11 @@
   color: #888;
 }
 footer {
-  margin-top: 100px;
   font-weight: bold;
-  border-top: #000 1px solid;
+  border-top: #fff 1px solid;
   display: flex;
+  color: #fff;
+  text-align: center;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /*Centraliza verticalmente */
 }
