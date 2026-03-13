@@ -31,6 +31,7 @@ function App() {
     { id: 2, titulo: "Leitura", meta: 7, ativo: true, diasFeitos: 3 },
     { id: 3, titulo: "Meditação", meta: 7, ativo: false, diasFeitos: 0 },
     { id: 4, titulo: "Hidratação", meta: 7, ativo: true, diasFeitos: 6 },
+    { id: 5, titulo: "meditação", meta: 7, ativo: true, diasFeitos: 6 },
   ];
 
   return (
