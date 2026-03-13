@@ -1,6 +1,7 @@
 import HabitCard from "./HabitCard";
+import { useState } from "react";
 
-function HabitList({ habits }) {
+/* function HabitList({ habits }) {
   // Guard clause 1: protege contra undefined ou null
   if (!habits) return null;
 
@@ -21,6 +22,49 @@ function HabitList({ habits }) {
         />
       ))}
     </ul>
+  );
+}*/
+function HabitList() {
+  const [habits, setHabits] = useState([
+    {
+      id: 1,
+      titulo: "Beber 2L de água",
+      descricao: "Ao longo do dia",
+      categoria: "Saúde",
+    },
+    {
+      id: 2,
+      titulo: "Ler 20 minutos",
+      descricao: "Livro ou artigo",
+      categoria: "Estudo",
+    },
+    {
+      id: 3,
+      titulo: "Caminhar 30 minutos",
+      descricao: "Depois do trabalho",
+      categoria: "Exercício",
+    },
+  ]);
+
+  const removerHabit = (id) => {
+    setHabits(habits.filter((habit) => habit.id !== id));
+  };
+
+  return (
+    <section>
+      <h2>Hábitos cadastrados</h2>
+      {habits.length === 0 && <p>Nenhum hábito cadastrado ainda.</p>}
+
+      {habits.map((habit) => (
+        <HabitCard
+          key={habit.id}
+          titulo={habit.titulo}
+          descricao={habit.descricao}
+          categoria={habit.categoria}
+          onRemover={() => removerHabit(habit.id)}
+        />
+      ))}
+    </section>
   );
 }
 

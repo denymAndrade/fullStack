@@ -1,27 +1,20 @@
-function HabitCard({
-  titulo,
-  meta,
-  ativo = true,
-  diasFeitos = 0,
-  categoria = "Geral",
-}) {
-  const metaAtingida = diasFeitos >= meta;
-
-  const mensagemMeta = metaAtingida
-    ? "Meta da semana atingida!"
-    : `${diasFeitos} de ${meta} dias concluídos`;
+function HabitCard({ titulo, descricao, categoria, onRemover }) {
+  const destaque = categoria === "Saúde";
 
   return (
     <div className="habit-card">
       <h3>{titulo}</h3>
-      <p>{mensagemMeta}</p>
-      <small>Categoria: {categoria}</small>
+      <p>{descricao}</p>
+      <small>
+        Categoria: {categoria}
+        {destaque && " ⭐"}
+      </small>
 
-      {/* Ternário: dois resultados possíveis */}
-      <span>{ativo ? " Ativo" : " Pausado"}</span>
-
-      {/* &&: um resultado ou nada */}
-      {metaAtingida && <p>Parabéns! Você manteve a sequência essa semana!</p>}
+      {onRemover && (
+        <button type="button" onClick={onRemover}>
+          Remover
+        </button>
+      )}
     </div>
   );
 }
