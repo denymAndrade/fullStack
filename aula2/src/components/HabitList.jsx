@@ -1,50 +1,44 @@
 import HabitCard from "./HabitCard";
-import { useState } from "react";
+/*import { useState } from "react";*/
+import { useState, useEffect } from "react";
 
-/* function HabitList({ habits }) {
-  // Guard clause 1: protege contra undefined ou null
-  if (!habits) return null;
-
-  // Guard clause 2: mensagem amigável para lista vazia
-  if (habits.length === 0) {
-    return <p>Nenhum hábito cadastrado ainda. Que tal começar?</p>;
-  }
-
-  return (
-    <ul>
-      {habits.map((habit) => (
-        <HabitCard
-          key={habit.id}
-          titulo={habit.titulo}
-          meta={habit.meta}
-          ativo={habit.ativo}
-          diasFeitos={habit.diasFeitos}
-        />
-      ))}
-    </ul>
-  );
-}*/
 function HabitList() {
   const [habits, setHabits] = useState([
-    {
-      id: 1,
-      titulo: "Beber 2L de água",
-      descricao: "Ao longo do dia",
-      categoria: "Saúde",
-    },
-    {
-      id: 2,
-      titulo: "Ler 20 minutos",
-      descricao: "Livro ou artigo",
-      categoria: "Estudo",
-    },
-    {
-      id: 3,
-      titulo: "Caminhar 30 minutos",
-      descricao: "Depois do trabalho",
-      categoria: "Exercício",
-    },
+    /* array do Passo 1 */
   ]);
+  const [novoNome, setNovoNome] = useState("");
+  const [novaDescricao, setNovaDescricao] = useState("");
+  const [novaCategoria, setNovaCategoria] = useState("");
+
+  const adicionarHabit = (event) => {
+    event.preventDefault();
+
+    if (!novoNome.trim()) {
+      alert("Informe um nome para o hábito.");
+      return;
+    }
+
+    const novoHabit = {
+      id: Date.now(),
+      nome: novoNome,
+      descricao: novaDescricao,
+      meta: 7, // padrão
+      ativo: true, // padrão
+      diasFeitos: 0, // padrão
+      categoria: novaCategoria || "Geral",
+    };
+
+    setHabits([...habits, novoHabit]);
+
+    // Limpar os campos após adicionar
+    setNovoNome("");
+    setNovaDescricao("");
+    setNovaCategoria("");
+  };
+  (useEffect(() => {
+    document.title = `My Daily Habits — ${habits.length} "hábito(s)`;
+  }),
+    [habits]);
 
   const removerHabit = (id) => {
     setHabits(habits.filter((habit) => habit.id !== id));
@@ -52,18 +46,60 @@ function HabitList() {
 
   return (
     <section>
-      <h2>Hábitos cadastrados</h2>
-      {habits.length === 0 && <p>Nenhum hábito cadastrado ainda.</p>}
+      <form onSubmit={adicionarHabit} className="habit-form">
+        <div>
+          <label>
+            Nome do hábito *
+            <input
+              type="text"
+              value={novoNome}
+              onChange={(e) => setNovoNome(e.target.value)}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Descrição
+            <input
+              type="text"
+              value={novaDescricao}
+              onChange={(e) => setNovaDescricao(e.target.value)}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Categoria
+            <input
+              type="text"
+              value={novaCategoria}
+              onChange={(e) => setNovaCategoria(e.target.value)}
+            />
+          </label>
+        </div>
+        <button type="submit">Adicionar hábito</button>
+      </form>
 
-      {habits.map((habit) => (
-        <HabitCard
-          key={habit.id}
-          titulo={habit.titulo}
-          descricao={habit.descricao}
-          categoria={habit.categoria}
-          onRemover={() => removerHabit(habit.id)}
-        />
-      ))}
+      <ul>
+        <div
+          style={{ marginTop: "20px", fontWeight: "bold", textAlign: "center" }}
+        >
+          Você tem {habits.length} hábitos cadastrados!
+        </div>
+        {habits.length === 0 && <p>Nenhum hábito cadastrado ainda.</p>}
+
+        {habits.map((habit) => (
+          <HabitCard
+            key={habit.id}
+            nome={habit.nome}
+            descricao={habit.descricao}
+            meta={habit.meta}
+            ativo={habit.ativo}
+            diasFeitos={habit.diasFeitos}
+            onRemover={() => removerHabit(habit.id)}
+          />
+        ))}
+      </ul>
     </section>
   );
 }

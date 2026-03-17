@@ -40,6 +40,7 @@ function App() {
 
       <img src={Logo} alt="Logo do Projeto" style={{ width: "300px" }} />
       <BemVindo nomeUsuario="turma iteam" totalHabitos={habits.length} />
+
       <SecaoHabitos titulo="Meus Hábitos">
         <HabitList habits={habits} />
       </SecaoHabitos>
