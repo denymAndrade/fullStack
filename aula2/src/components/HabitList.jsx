@@ -1,11 +1,17 @@
 import HabitCard from "./HabitCard";
-/*import { useState } from "react";*/
 import { useState, useEffect } from "react";
 
 function HabitList() {
-  const [habits, setHabits] = useState([
-    /* array do Passo 1 */
-  ]);
+  const [habits, setHabits] = useState(() => {
+    const habitosSalvos = localStorage.getItem("meusHabitos");
+
+    if (habitosSalvos) {
+      return JSON.parse(habitosSalvos);
+    }
+
+    return [];
+  });
+
   const [novoNome, setNovoNome] = useState("");
   const [novaDescricao, setNovaDescricao] = useState("");
   const [novaCategoria, setNovaCategoria] = useState("");
@@ -22,23 +28,24 @@ function HabitList() {
       id: Date.now(),
       nome: novoNome,
       descricao: novaDescricao,
-      meta: 7, // padrão
-      ativo: true, // padrão
-      diasFeitos: 0, // padrão
+      meta: 7,
+      ativo: true,
+      diasFeitos: 0,
       categoria: novaCategoria || "Geral",
     };
 
     setHabits([...habits, novoHabit]);
 
-    // Limpar os campos após adicionar
     setNovoNome("");
     setNovaDescricao("");
     setNovaCategoria("");
   };
-  (useEffect(() => {
-    document.title = `My Daily Habits — ${habits.length} "hábito(s)`;
-  }),
-    [habits]);
+
+  useEffect(() => {
+    localStorage.setItem("meusHabitos", JSON.stringify(habits));
+
+    document.title = `My Daily Habits — ${habits.length} hábito(s)`;
+  }, [habits]);
 
   const removerHabit = (id) => {
     setHabits(habits.filter((habit) => habit.id !== id));
@@ -86,6 +93,7 @@ function HabitList() {
         >
           Você tem {habits.length} hábitos cadastrados!
         </div>
+
         {habits.length === 0 && <p>Nenhum hábito cadastrado ainda.</p>}
 
         {habits.map((habit) => (
