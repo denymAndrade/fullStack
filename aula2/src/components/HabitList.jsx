@@ -14,10 +14,12 @@ function HabitList() {
     return [];
   });
 
-  const [novoNome, setNovoNome] = useState("");
-  const [novaDescricao, setNovaDescricao] = useState("");
-  const [novaCategoria, setNovaCategoria] = useState("");
-  const [novaMeta, setNovaMeta] = useState(7);
+  const [form, setForm] = useState({
+    novoNome: "",
+    novaDescricao: "",
+    novaCategoria: "",
+    novaMeta: 7,
+  });
   const [erroNome, setErroNome] = useState("");
   const [erroMeta, setErroMeta] = useState("");
 
@@ -26,7 +28,7 @@ function HabitList() {
   const adicionarHabit = (event) => {
     event.preventDefault();
 
-    if (!novoNome.trim()) {
+    if (!form.novoNome.trim()) {
       alert("Informe um nome para o hábito.");
       return;
     }
@@ -38,20 +40,22 @@ function HabitList() {
 
     const novoHabit = {
       id: Date.now(),
-      nome: novoNome,
-      descricao: novaDescricao,
-      meta: Number(novaMeta),
+      nome: form.novoNome,
+      descricao: form.novaDescricao,
+      meta: Number(form.novaMeta),
       ativo: true,
       diasFeitos: 0,
-      categoria: novaCategoria || "Geral",
+      categoria: form.novaCategoria || "Geral",
     };
 
     setHabits((prev) => [...prev, novoHabit]);
 
-    setNovoNome("");
-    setNovaDescricao("");
-    setNovaCategoria("");
-    setNovaMeta(7);
+    setForm({
+      novoNome: "",
+      novaDescricao: "",
+      novaCategoria: "",
+      novaMeta: 7,
+    });
 
     nomeInputRef.current?.focus();
   };
@@ -69,19 +73,18 @@ function HabitList() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
+    // Atualização em batch através de sintaxe de chave dinâmica [name]
+    setForm((prev) => ({ ...prev, [name]: value }));
+
     if (name === "novoNome") {
-      setNovoNome(value);
       if (value.length > 0 && value.length < 3) {
         setErroNome("O nome deve ter pelo menos 3 caracteres.");
       } else {
         setErroNome("");
       }
     }
-    if (name === "novaDescricao") setNovaDescricao(value);
-    if (name === "novaCategoria") setNovaCategoria(value);
     if (name === "novaMeta") {
       const num = parseInt(value);
-      setNovaMeta(value);
       if (num < 1 || num > 7) {
         setErroMeta("Meta deve ser entre 1 e 7 dias.");
       } else {
@@ -99,7 +102,7 @@ function HabitList() {
             <input
               type="text"
               name="novoNome"
-              value={novoNome}
+              value={form.novoNome}
               onChange={handleChange}
               ref={nomeInputRef}
             />
@@ -116,7 +119,7 @@ function HabitList() {
             <input
               type="text"
               name="novaDescricao"
-              value={novaDescricao}
+              value={form.novaDescricao}
               onChange={handleChange}
             />
           </label>
@@ -127,7 +130,7 @@ function HabitList() {
             <input
               type="text"
               name="novaCategoria"
-              value={novaCategoria}
+              value={form.novaCategoria}
               onChange={handleChange}
             />
           </label>
@@ -138,7 +141,7 @@ function HabitList() {
             <input
               type="number"
               name="novaMeta"
-              value={novaMeta}
+              value={form.novaMeta}
               onChange={handleChange}
             />
           </label>
